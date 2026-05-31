@@ -4,6 +4,7 @@ import aiosqlite
 import httpx
 from fastapi import FastAPI, Request, BackgroundTasks
 from dotenv import load_dotenv
+from query_agent import router as guard_router
 # 加载环境变量
 load_dotenv()
 
@@ -34,6 +35,7 @@ async def lifespan(app: FastAPI):
 
 # 将生命周期挂载到 App 上
 app = FastAPI(lifespan=lifespan)
+app.include_router(guard_router)
 
 WECOM_WEBHOOK_URL = os.getenv("WEBHOOK_URL")
 
